@@ -18,7 +18,7 @@ public class Compte
     }
 
     // Relation : 1 client → 1 compte
-    public int ClientId { get; set; }
+    public string ClientNumero { get; set; } = null!;
     public Client Client { get; set; } = null!;
 
     public Compte(double soldeInitial = 0)

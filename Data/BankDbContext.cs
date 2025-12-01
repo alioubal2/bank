@@ -23,7 +23,7 @@ namespace bank.Data
             {
                 entity.ToTable("agences");
 
-                // Clé primaire = Code
+                // si vous aviez choisi Code comme PK, laissez-le. Sinon adaptez.
                 entity.HasKey(a => a.Code);
 
                 entity.Property(a => a.Nom)
@@ -39,14 +39,13 @@ namespace bank.Data
             {
                 entity.ToTable("clients");
 
-                // Clé primaire = Numero
-                entity.HasKey(c => c.Numero);
+                // Clé primaire = Id (int)
+                entity.HasKey(c => c.Id);
 
-                entity.Property(c => c.Nom)
-                      .HasMaxLength(150);
-
-                entity.Property(c => c.Prenom)
-                      .HasMaxLength(150);
+                entity.Property(c => c.Numero).HasMaxLength(100);
+                entity.Property(c => c.Nom).HasMaxLength(150);
+                entity.Property(c => c.Prenom).HasMaxLength(150);
+                entity.Property(c => c.Telephone).HasMaxLength(20);
             });
 
             // =================== COMPTE ===================
@@ -60,6 +59,14 @@ namespace bank.Data
                 entity.Property(c => c.Solde)
                       .IsRequired();
 
+                // Relation 1 client → 1 compte
+                // FK dans Compte.ClientId qui pointe sur Client.Id
+                entity.HasOne(c => c.Client)
+      .WithOne(c => c.Compte)
+      .HasForeignKey<Compte>(c => c.ClientNumero)
+      .HasPrincipalKey<Client>(c => c.Numero);
+
+
                 entity.HasDiscriminator<string>("TypeCompte")
                       .HasValue<Compte>("Base")
                       .HasValue<CompteEpargne>("Epargne")
@@ -68,7 +75,26 @@ namespace bank.Data
             });
 
             // =================== OPERATIONS ===================
-            // Tu me donneras la classe Operation pour la mapper proprement
+            // (Assurez-vous que Operation.cs existe et est publique)
+            // modelBuilder.Entity<Operation>(entity =>
+            // {
+            //     entity.ToTable("operations");
+            //     entity.HasKey(o => o.Id);
+
+            //     entity.Property(o => o.Type).IsRequired().HasMaxLength(100);
+            //     entity.Property(o => o.Date).IsRequired();
+            //     entity.Property(o => o.Montant).IsRequired();
+
+            //     entity.HasOne(o => o.CompteSource)
+            //           .WithMany(c => c.Operations)
+            //           .HasForeignKey(o => o.CompteSourceId)
+            //           .OnDelete(DeleteBehavior.Cascade);
+
+            //     entity.HasOne(o => o.CompteDestination)
+            //           .WithMany()
+            //           .HasForeignKey(o => o.CompteDestinationId)
+            //           .OnDelete(DeleteBehavior.Restrict);
+            // });
         }
     }
 }

@@ -8,6 +8,10 @@ public enum Genre
 
 public class Client
 {
+    // Clé primaire pour EF (int)
+    public int Id { get; set; }
+
+    // Identifiant métier (string) : reste utile pour affichage, recherche, papier, etc.
     private string _numero = null!;
     private string _nom = null!;
     private string _prenom = null!;
@@ -17,7 +21,7 @@ public class Client
     public string Numero
     {
         get => _numero;
-        private set => _numero = value;
+        set => _numero = value;
     }
 
     public string Nom
@@ -56,10 +60,11 @@ public class Client
         _telephone = telephone;
     }
 
-    private Client() { }
+    private Client() { } // requis par EF
 
     public void Affichage()
     {
+        Console.WriteLine($"Id : {Id}");
         Console.WriteLine($"Numéro : {_numero}");
         Console.WriteLine($"Nom : {_nom}");
         Console.WriteLine($"Prénom : {_prenom}");
