@@ -69,7 +69,7 @@ Modifier la chaîne de connexion dans :
 
 ## 🏗️ Architecture du projet (GUI + PostgreSQL)
 
-Bank/
+bank/
 │
 ├── Data/
 │ ├── Repositories
@@ -99,7 +99,7 @@ Bank/
 │ ├── CompteForm.cs
 │ └── OperationForm.cs
 │
-└── Bank.csproj
+└── bank.csproj
 
 
 ---
